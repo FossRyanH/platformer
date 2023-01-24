@@ -8,6 +8,9 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb2d;
     Vector2 moveInput;
     Animator anim;
+    CapsuleCollider2D collider;
+
+    [SerializeField] float jumpForce = 10f;
 
     public float moveSpeed = 15f;
 
@@ -16,6 +19,7 @@ public class PlayerController : MonoBehaviour
     {
         rb2d = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        collider = GetComponent<CapsuleCollider2D>();
     }
 
     // Update is called once per frame
@@ -28,6 +32,18 @@ public class PlayerController : MonoBehaviour
     void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
+    }
+
+    void OnJump(InputValue value)
+    {
+        /* This is checking if the player is touching the ground. If the player is touching the ground, it will
+        allow the player to jump. */
+        if (!collider.IsTouchingLayers(LayerMask.GetMask("Ground"))) { return; }
+
+        if (value.isPressed)
+        {
+            rb2d.velocity += new Vector2(rb2d.velocity.x, jumpForce);
+        }
     }
 
     void Run()

@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
 
     void Run()
     {
+        /* This is the code that is making the player move. */
         Vector2 playerVelocity = new Vector2(moveInput.x * moveSpeed, rb2d.velocity.y);
         rb2d.velocity = playerVelocity;
 
@@ -41,8 +42,14 @@ public class PlayerController : MonoBehaviour
 
     void FlipSprite()
     {
-        /* Checking if the player is moving horizontally and flipping the sprite. */
+        
+        /* Checking if the player is moving horizontally. If the player is moving horizontally, it will flip
+        the sprite. */
         bool hasHorizontalSpeed = Mathf.Abs(rb2d.velocity.x) > Mathf.Epsilon;
-        transform.localScale = new Vector2(Mathf.Sign(rb2d.velocity.x), 1f);
+
+        if (hasHorizontalSpeed)
+        {
+            transform.localScale = new Vector2(Mathf.Sign(rb2d.velocity.x), 1f);
+        }
     }
 }

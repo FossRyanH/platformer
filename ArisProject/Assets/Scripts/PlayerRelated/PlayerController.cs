@@ -11,8 +11,11 @@ public class PlayerController : MonoBehaviour
     CapsuleCollider2D collider;
 
     [SerializeField] float jumpForce = 10f;
+    [SerializeField] float climbSpeed = 4.5f;
 
     public float moveSpeed = 15f;
+
+    float gravityScaleInit;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +23,7 @@ public class PlayerController : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         collider = GetComponent<CapsuleCollider2D>();
+        gravityScaleInit = rb2d.gravityScale;
     }
 
     // Update is called once per frame
@@ -27,6 +31,7 @@ public class PlayerController : MonoBehaviour
     {
         Run();
         FlipSprite();
+        Climb();
     }
 
     void OnMove(InputValue value)
@@ -54,6 +59,25 @@ public class PlayerController : MonoBehaviour
 
         bool isMoving = Mathf.Abs(rb2d.velocity.x) > Mathf.Epsilon;
         anim.SetBool("isRunning", isMoving);
+    }
+
+    void Climb()
+    {
+        bool hasVerticalSpeed = Mathf.Abs(rb2d.velocity.y) > Mathf.Epsilon;
+
+        if (!collider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
+        {
+            rb2d.gravityScale = gravityScaleInit;
+            anim.SetBool("isClimbing", hasVerticalSpeed);
+
+            return;
+        }
+
+        Vector2 climbVelocity = new Vector2(rb2d.velocity.x, moveInput.y * climbSpeed);
+        rb2d.velocity = climbVelocity;
+        rb2d.gravityScale = 0f;
+
+        anim.SetBool("isClimbing", hasVerticalSpeed);
     }
 
     void FlipSprite()

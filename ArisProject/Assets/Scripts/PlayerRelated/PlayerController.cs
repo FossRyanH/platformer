@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     void OnJump(InputValue value)
     {
         /* This is checking if the player is touching the ground. If the player is touching the ground, it will
-        allow the player to jump. */
+        allow the player to jump. */;
         if (!collider.IsTouchingLayers(LayerMask.GetMask("Ground"))) { return; }
 
         if (value.isPressed)
@@ -63,26 +63,25 @@ public class PlayerController : MonoBehaviour
 
     void Climb()
     {
-        bool hasVerticalSpeed = Mathf.Abs(rb2d.velocity.y) > Mathf.Epsilon;
-
         if (!collider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
         {
             rb2d.gravityScale = gravityScaleInit;
-            anim.SetBool("isClimbing", hasVerticalSpeed);
+            anim.SetBool("isClimbing", false);
 
             return;
         }
+        else if (collider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
+        {
+            Vector2 climbVelocity = new Vector2(rb2d.velocity.x, moveInput.y * climbSpeed);
+            rb2d.velocity = climbVelocity;
+            rb2d.gravityScale = 0f;
 
-        Vector2 climbVelocity = new Vector2(rb2d.velocity.x, moveInput.y * climbSpeed);
-        rb2d.velocity = climbVelocity;
-        rb2d.gravityScale = 0f;
-
-        anim.SetBool("isClimbing", hasVerticalSpeed);
+            anim.SetBool("isClimbing", true);
+        }
     }
 
     void FlipSprite()
-    {
-        
+    {  
         /* Checking if the player is moving horizontally. If the player is moving horizontally, it will flip
         the sprite. */
         bool hasHorizontalSpeed = Mathf.Abs(rb2d.velocity.x) > Mathf.Epsilon;

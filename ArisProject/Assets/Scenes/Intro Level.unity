@@ -299,7 +299,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 221131544}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.87, y: 9.4, z: -10}
+  m_LocalPosition: {x: 10.87, y: 8.31, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -426,7 +426,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 353071963}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.87, y: 9.4, z: -10}
+  m_LocalPosition: {x: 10.87, y: 8.31, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -773,7 +773,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 4.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -797,7 +797,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.87, y: 9.4, z: -10}
+  m_LocalPosition: {x: 10.87, y: 8.31, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7577,7 +7577,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2111001112}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.87, y: 9.4, z: -10}
+  m_LocalPosition: {x: 10.87, y: 8.31, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7624,7 +7624,7 @@ MonoBehaviour:
   m_Follow: {fileID: 1064625056}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 5
+    OrthographicSize: 4.5
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -7667,6 +7667,14 @@ PrefabInstance:
       propertyPath: m_Actions
       value: 
       objectReference: {fileID: -944628639613478452, guid: d09629a690b71304095efd327e6d27fc, type: 3}
+    - target: {fileID: 290551079, guid: 9deeced83c1dc4e4890d33d66a11bca5, type: 3}
+      propertyPath: moveSpeed
+      value: 4.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 290551079, guid: 9deeced83c1dc4e4890d33d66a11bca5, type: 3}
+      propertyPath: climbSpeed
+      value: 2.75
+      objectReference: {fileID: 0}
     - target: {fileID: 4026078715124911134, guid: 9deeced83c1dc4e4890d33d66a11bca5, type: 3}
       propertyPath: m_Controller
       value: 
@@ -7681,7 +7689,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4026078715124911139, guid: 9deeced83c1dc4e4890d33d66a11bca5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.4
+      value: 8.31
       objectReference: {fileID: 0}
     - target: {fileID: 4026078715124911139, guid: 9deeced83c1dc4e4890d33d66a11bca5, type: 3}
       propertyPath: m_LocalPosition.z

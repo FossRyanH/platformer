@@ -8,12 +8,14 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb2d;
     Vector2 moveInput;
     Animator anim;
-    CapsuleCollider2D collider;
+    BoxCollider2D footCollider;
+    CircleCollider2D gripBox;
+    CapsuleCollider2D hitBox;
 
     [SerializeField] float jumpForce = 10f;
-    [SerializeField] float climbSpeed = 4.5f;
+    [SerializeField] float climbSpeed = 2.25f;
 
-    public float moveSpeed = 15f;
+    public float moveSpeed = 4f;
 
     float gravityScaleInit;
 
@@ -22,7 +24,9 @@ public class PlayerController : MonoBehaviour
     {
         rb2d = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        collider = GetComponent<CapsuleCollider2D>();
+        footCollider = GetComponent<BoxCollider2D>();
+        gripBox = GetComponent<CircleCollider2D>();
+        hitBox = GetComponent<CapsuleCollider2D>();
         gravityScaleInit = rb2d.gravityScale;
     }
 
@@ -43,7 +47,7 @@ public class PlayerController : MonoBehaviour
     {
         /* This is checking if the player is touching the ground. If the player is touching the ground, it will
         allow the player to jump. */;
-        if (!collider.IsTouchingLayers(LayerMask.GetMask("Ground"))) { return; }
+        if (!footCollider.IsTouchingLayers(LayerMask.GetMask("Ground"))) { return; }
 
         if (value.isPressed)
         {
@@ -63,20 +67,32 @@ public class PlayerController : MonoBehaviour
 
     void Climb()
     {
-        if (!collider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
+        if (!footCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
         {
             rb2d.gravityScale = gravityScaleInit;
             anim.SetBool("isClimbing", false);
 
             return;
         }
-        else if (collider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
+        else if (footCollider.IsTouchingLayers(LayerMask.GetMask("Climbing")))
         {
             Vector2 climbVelocity = new Vector2(rb2d.velocity.x, moveInput.y * climbSpeed);
             rb2d.velocity = climbVelocity;
             rb2d.gravityScale = 0f;
 
             anim.SetBool("isClimbing", true);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.IsTouchingLayers(LayerMask.GetMask("Wall")))
+        {
+            rb2d.gravityScale = 0.4f;
+        }
+        else
+        {
+            rb2d.gravityScale = gravityScaleInit;
         }
     }
 

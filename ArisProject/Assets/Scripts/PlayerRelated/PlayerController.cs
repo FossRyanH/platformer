@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.IsTouchingLayers(LayerMask.GetMask("Wall")))
+        if (other.tag == "WallGrip")
         {
             rb2d.gravityScale = 0.4f;
         }

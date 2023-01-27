@@ -5,10 +5,10 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     Rigidbody2D rigidbody;
-    RaycastHit2D hitDetection;
     Animator anim;
+    CapsuleCollider2D groundDetection;
+    CircleCollider2D hitBox;
 
-    [SerializeField] float distanceDetection = 0.2f;
     public float moveSpeed = 1.75f;
 
     // Start is called before the first frame update
@@ -22,18 +22,6 @@ public class EnemyMovement : MonoBehaviour
     void Update()
     {
         Move();
-
-        hitDetection = Physics2D.Raycast(transform.position, Vector2.right, distanceDetection);
-
-        if (hitDetection.collider != null)
-        {
-            if (hitDetection.collider.tag == "Ground")
-            {
-                FlipSprite();
-            }
-        }
-
-        Debug.DrawRay(transform.position, Vector2.right * distanceDetection, Color.red);
     }
 
     void Move()
@@ -47,10 +35,15 @@ public class EnemyMovement : MonoBehaviour
 
     void FlipSprite()
     {
-        bool hasHorizontalSpeed = Mathf.Abs(rigidbody.velocity.x) > Mathf.Epsilon;
-        if (hasHorizontalSpeed)
+        transform.localScale = new Vector2(-(Mathf.Sign(rigidbody.velocity.x)), 1f);
+    }
+
+    void OnTriggerExit2D(Collider2D collider)
+    {
+        if (collider.tag == "Ground")
         {
-            transform.localScale = new Vector2(Mathf.Sign(rigidbody.velocity.x), 1f);
+            moveSpeed = -moveSpeed;
+            FlipSprite();
         }
     }
 }

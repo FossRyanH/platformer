@@ -12,12 +12,13 @@ public class PlayerController : MonoBehaviour
     CircleCollider2D gripBox;
     CapsuleCollider2D hitBox;
 
+    [Header("Movement Related")]
     [SerializeField] float jumpForce = 10f;
     [SerializeField] float climbSpeed = 2.25f;
-
     public float moveSpeed = 4f;
 
     float gravityScaleInit;
+    bool isAlive = true;
 
     // Start is called before the first frame update
     void Start()
@@ -33,20 +34,24 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!isAlive) { return; }
+
         Run();
         FlipSprite();
         Climb();
+        Die();
     }
 
     void OnMove(InputValue value)
     {
+        if (!isAlive)  { return; }
         moveInput = value.Get<Vector2>();
     }
 
     void OnJump(InputValue value)
     {
-        /* This is checking if the player is touching the ground. If the player is touching the ground, it will
-        allow the player to jump. */;
+        if (!isAlive) { return; }
+
         if (!footCollider.IsTouchingLayers(LayerMask.GetMask("Ground"))) { return; }
 
         if (value.isPressed)
@@ -105,6 +110,15 @@ public class PlayerController : MonoBehaviour
         if (hasHorizontalSpeed)
         {
             transform.localScale = new Vector2(Mathf.Sign(rb2d.velocity.x), 1f);
+        }
+    }
+
+    void Die()
+    {
+        if (hitBox.IsTouchingLayers(LayerMask.GetMask("Enemy")))
+        {
+            anim.SetTrigger("Dying");
+            isAlive = false;
         }
     }
 }

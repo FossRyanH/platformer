@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    Rigidbody2D rigidbody;
+    Rigidbody2D rb;
     Animator anim;
     CapsuleCollider2D groundDetection;
     CircleCollider2D hitBox;
@@ -14,7 +14,7 @@ public class EnemyMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
     }
 
@@ -26,16 +26,16 @@ public class EnemyMovement : MonoBehaviour
 
     void Move()
     {
-        Vector2 enemyVelocity = new Vector2(moveSpeed, rigidbody.velocity.y);
-        rigidbody.velocity = enemyVelocity; 
+        Vector2 enemyVelocity = new Vector2(moveSpeed, rb.velocity.y);
+        rb.velocity = enemyVelocity; 
 
-        bool isMoving = Mathf.Abs(rigidbody.velocity.x) > Mathf.Epsilon;
+        bool isMoving = Mathf.Abs(rb.velocity.x) > Mathf.Epsilon;
         anim.SetBool("isMoving", isMoving);
     }
 
     void FlipSprite()
     {
-        transform.localScale = new Vector2(-(Mathf.Sign(rigidbody.velocity.x)), 1f);
+        transform.localScale = new Vector2(-(Mathf.Sign(rb.velocity.x)), 1f);
     }
 
     void OnTriggerExit2D(Collider2D collider)

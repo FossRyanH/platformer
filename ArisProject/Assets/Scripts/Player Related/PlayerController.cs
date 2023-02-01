@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float jumpForce = 10f;
     [SerializeField] float climbSpeed = 2.25f;
     public float moveSpeed = 4f;
-
+ 
     float gravityScaleInit;
     bool isAlive = true;
 
@@ -50,13 +50,25 @@ public class PlayerController : MonoBehaviour
 
     void OnJump(InputValue value)
     {
+        bool isGrounded = footCollider.IsTouchingLayers(LayerMask.GetMask("Ground"));
+
         if (!isAlive) { return; }
 
-        if (!footCollider.IsTouchingLayers(LayerMask.GetMask("Ground"))) { return; }
+        if (!isGrounded) 
+        {
+            anim.SetBool("isGrounded", isGrounded);
+
+            return;
+        }
+        else if (isGrounded)
+        {
+            anim.SetBool("isGrounded", isGrounded);
+        }
 
         if (value.isPressed)
         {
             rb2d.velocity += new Vector2(rb2d.velocity.x, jumpForce);
+            anim.SetTrigger("Jumping");
         }
     }
 
@@ -115,10 +127,10 @@ public class PlayerController : MonoBehaviour
 
     void Die()
     {
-        if (hitBox.IsTouchingLayers(LayerMask.GetMask("Enemy")))
+        if (hitBox.IsTouchingLayers(LayerMask.GetMask("Enemy", "Hazards")))
         {
-            anim.SetTrigger("Dying");
             isAlive = false;
+            anim.SetTrigger("Dying");
         }
     }
 }
